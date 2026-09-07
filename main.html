@@ -1,134 +1,157 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>My Website</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Website</title>
 
-<style>
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    body {
-        font-family: Arial, sans-serif;
-        min-height: 100vh;
-        background: linear-gradient(135deg, #0f172a, #1e293b);
-        color: white;
-    }
+        body {
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+            color: white;
+        }
 
-    header {
-        width: 100%;
-        padding: 20px 8%;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        background: rgba(0, 0, 0, 0.25);
-    }
-
-    .logo {
-        font-size: 24px;
-        font-weight: bold;
-    }
-
-    nav a {
-        color: white;
-        text-decoration: none;
-        margin-left: 20px;
-        font-size: 15px;
-    }
-
-    nav a:hover {
-        color: #38bdf8;
-    }
-
-    .hero {
-        min-height: calc(100vh - 75px);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-        padding: 30px;
-    }
-
-    .hero-content {
-        max-width: 700px;
-    }
-
-    .hero h1 {
-        font-size: clamp(40px, 8vw, 70px);
-        margin-bottom: 20px;
-    }
-
-    .hero h1 span {
-        color: #38bdf8;
-    }
-
-    .hero p {
-        font-size: 18px;
-        line-height: 1.7;
-        color: #cbd5e1;
-        margin-bottom: 30px;
-    }
-
-    .btn {
-        display: inline-block;
-        padding: 14px 30px;
-        background: #38bdf8;
-        color: #0f172a;
-        text-decoration: none;
-        border-radius: 8px;
-        font-weight: bold;
-        transition: 0.3s;
-    }
-
-    .btn:hover {
-        transform: translateY(-3px);
-        background: #7dd3fc;
-    }
-
-    footer {
-        text-align: center;
-        padding: 20px;
-        color: #94a3b8;
-        font-size: 14px;
-    }
-
-    @media (max-width: 600px) {
         header {
-            padding: 18px 5%;
+            width: 100%;
+            padding: 20px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.25);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
         }
 
         nav a {
-            margin-left: 10px;
-            font-size: 13px;
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+            font-size: 15px;
+            cursor: pointer;
+        }
+
+        nav a:hover {
+            color: #38bdf8;
+        }
+
+        .logout-btn {
+            background: #ef4444;
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: #f87171;
+            color: white;
+        }
+
+        .hero {
+            min-height: calc(100vh - 75px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 30px;
+        }
+
+        .hero-content {
+            max-width: 700px;
+        }
+
+        .hero h1 {
+            font-size: clamp(40px, 8vw, 70px);
+            margin-bottom: 20px;
+        }
+
+        .hero h1 span {
+            color: #38bdf8;
         }
 
         .hero p {
-            font-size: 16px;
+            font-size: 18px;
+            line-height: 1.7;
+            color: #cbd5e1;
+            margin-bottom: 30px;
         }
-    }
-</style>
 
-</head><body><header>
+        .btn {
+            display: inline-block;
+            padding: 14px 30px;
+            background: #38bdf8;
+            color: #0f172a;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            background: #7dd3fc;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #94a3b8;
+            font-size: 14px;
+        }
+
+        @media (max-width: 600px) {
+            header {
+                padding: 18px 5%;
+            }
+
+            nav a {
+                margin-left: 10px;
+                font-size: 13px;
+            }
+
+            .hero p {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
     <div class="logo">My Website</div>
 
     <nav>
         <a href="#">Home</a>
         <a href="#">About</a>
         <a href="#">Contact</a>
+        <a href="#" class="logout-btn" onclick="logoutUser(event)">Logout</a>
     </nav>
 </header>
 
 <main class="hero">
     <div class="hero-content">
-        <h1>Welcome to <span>My Website</span></h1>
+        <h1>Welcome, <span id="displayUsername">User</span>!</h1>
 
         <p>
-            This is my personal website.
-            You can customize this page and add your own
-            features, login system, registration system,
-            or other content here.
+            This is your dashboard/home page.
+            You have successfully logged in using your registration account.
+            You can customize this page and add your own features.
         </p>
 
         <a href="#" class="btn">Get Started</a>
@@ -138,6 +161,47 @@
 <footer>
     © 2026 My Website. All Rights Reserved.
 </footer>
+
+<script>
+/* =====================================================
+   AUTH CHECK & ACCESS CONTROL
+===================================================== */
+(function checkAuthentication() {
+    const hasAccess = localStorage.getItem("portal_home_access_granted");
+
+    if (hasAccess !== "true") {
+        alert("Access denied! Please login first.");
+        window.location.href = "login.html";
+    }
+})();
+
+/* =====================================================
+   DISPLAY LOGGED IN USER
+===================================================== */
+window.addEventListener("DOMContentLoaded", function() {
+    const currentUser = localStorage.getItem("portal_current_user");
+    const nameElement = document.getElementById("displayUsername");
+
+    if (currentUser && nameElement) {
+        nameElement.textContent = currentUser;
+    }
+});
+
+/* =====================================================
+   LOGOUT SYSTEM
+===================================================== */
+function logoutUser(event) {
+    if (event) event.preventDefault();
+
+    // Clear session permissions
+    localStorage.removeItem("portal_home_access_granted");
+    localStorage.removeItem("portal_user_logged_in");
+    localStorage.removeItem("portal_current_user");
+
+    alert("You have been logged out.");
+    window.location.href = "login.html";
+}
+</script>
 
 </body>
 </html>
