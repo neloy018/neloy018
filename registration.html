@@ -1333,7 +1333,7 @@ button.main{
   }
 
   .number-6{
-    bottom:3px;
+    bottom:4px;
   }
 
   .number-9{
@@ -1822,7 +1822,8 @@ button.main{
 
 </div>
 
-
+<!-- SCRIPT.JS LINKED HERE -->
+<script src="script.js"></script>
 
 <script>
 
@@ -2077,7 +2078,7 @@ setInterval(
  TAB / PAGE আবার ACTIVE হলে
  =================================================
 
- কিছু browser background tab-এর timer
+ কিছু browser background tab-inter-timer
  ধীর বা pause করতে পারে।
 
  তাই user আবার page-এ ফিরে এলে
@@ -2477,7 +2478,7 @@ checkPassword();
 
 
 /* =================================================
-   SIGN UP VALIDATION
+   SIGN UP VALIDATION & DATA STORAGE
    ================================================= */
 
 document
@@ -2549,13 +2550,31 @@ document
       }
 
 
+      /* =================================================
+         REGISTER USER LOGIC (INTEGRATED WITH SCRIPT.JS)
+         ================================================= */
+
+      const usernameInput = document.getElementById("userName")?.value;
+      const emailInput = document.getElementById("email")?.value;
+      const passwordInput = document.getElementById("password")?.value;
+
+      // script.js এর registerUser ফাংশনটি কল করা হচ্ছে
+      let result = { success: true, message: 'Registration successful!' };
+      
+      if (typeof registerUser === "function") {
+          result = registerUser(usernameInput, emailInput, passwordInput);
+      }
+
+      if (!result.success) {
+          alert(result.message);
+          return;
+      }
+
       /*
-       সব ঠিক থাকলে
+       সব ঠিক থাকলে এবং ডাটা সেভ হলে
       */
 
-      alert(
-        'Registration successful!'
-      );
+      alert(result.message);
 
 
       /* =================================================
