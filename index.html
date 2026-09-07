@@ -6,105 +6,7 @@
 
     <title>My Website | Home</title>
 
-    <!-- =========================================================
-         PAGE ACCESS CONTROL
-
-         INDEX.HTML DIRECTLY OPEN করলে
-         PATTERN.HTML-এ পাঠানো হবে।
-
-         নতুন গ্রাহকের Flow:
-         pattern.html
-         ↓
-         new pattern
-         ↓
-         confirm pattern
-         ↓
-         registration.html
-         ↓
-         login.html
-         ↓
-         index.html
-
-         পুরাতন গ্রাহকের Flow:
-         pattern.html
-         ↓
-         old pattern correct
-         ↓
-         index.html
-
-         Login / Pattern সফল হলে:
-         portal_home_access_granted = "true"
-         অথবা পুরোনো Flow-এর জন্য "1"
-    ========================================================== -->
-
-    <script>
-        (function () {
-
-            const HOME_ACCESS_KEY =
-                "portal_home_access_granted";
-
-
-            /*
-             * Login অথবা Pattern থেকে
-             * যে Access Value আসবে সেটা নেওয়া হচ্ছে।
-             */
-
-            const accessValue =
-                localStorage.getItem(
-                    HOME_ACCESS_KEY
-                );
-
-
-            /*
-             * নতুন Login Flow:
-             * "true"
-             *
-             * পুরোনো Pattern Flow:
-             * "1"
-             *
-             * দুইটিই গ্রহণ করা হচ্ছে।
-             */
-
-            const accessGranted =
-                accessValue === "true" ||
-                accessValue === "1";
-
-
-            /*
-             * কোনো Access না থাকলে
-             * সরাসরি Pattern Page-এ পাঠাবে।
-             */
-
-            if (!accessGranted) {
-
-                window.location.replace(
-                    "pattern.html"
-                );
-
-                return;
-            }
-
-
-            /*
-             * Access সফলভাবে ব্যবহার করা হয়েছে।
-             *
-             * এখন Index Page দেখানোর পর
-             * Access Flag সরিয়ে দেওয়া হচ্ছে।
-             *
-             * ফলে index.html সরাসরি আবার খুললে
-             * Pattern Page আসবে।
-             */
-
-            localStorage.removeItem(
-                HOME_ACCESS_KEY
-            );
-
-        })();
-    </script>
-
-
     <style>
-
         *{
             margin:0;
             padding:0;
@@ -126,7 +28,6 @@
             text-decoration:none;
             color:inherit;
         }
-
 
         /* ================= HEADER ================= */
 
@@ -187,7 +88,6 @@
             background:#6847f5;
         }
 
-
         /* ================= HERO ================= */
 
         .hero{
@@ -226,4 +126,33 @@
         }
 
         .hero h1{
-            font-size:clamp(42px,7vw,
+            font-size:clamp(42px,7vw,72px);
+            font-weight:800;
+            line-height:1.1;
+            margin-bottom:20px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="navbar">
+            <div class="logo">My<span>Website</span></div>
+            <div class="menu">
+                <a href="#">Home</a>
+                <a href="#">About</a>
+                <a href="#">Services</a>
+                <a href="#" class="login-btn">Login</a>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <span class="badge">Welcome to our platform</span>
+            <h1>Build your amazing web experience</h1>
+        </div>
+    </section>
+
+</body>
+</html>
