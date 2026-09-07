@@ -1,0 +1,2614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Registration</title>
+
+<style>
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+body{
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:35px 15px;
+  font-family:Arial,Helvetica,sans-serif;
+
+  background:
+    radial-gradient(circle at 15% 20%,
+      rgba(0,150,255,.25),transparent 28%),
+    radial-gradient(circle at 85% 75%,
+      rgba(0,80,255,.20),transparent 30%),
+    linear-gradient(135deg,#dce9f7,#f8fbff 45%,#d7e7f7);
+}
+
+
+/* =================================================
+   BANGLADESH CLOCK
+   ================================================= */
+
+.bd-clock-box{
+
+  position:fixed;
+
+  top:18px;
+  left:18px;
+
+  width:94px;
+  height:94px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  border-radius:22px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255,255,255,.90),
+      rgba(220,234,248,.74)
+    );
+
+  border:1px solid rgba(255,255,255,.95);
+
+  box-shadow:
+
+    0 10px 28px
+      rgba(30,75,120,.20),
+
+    inset 0 1px 0
+      rgba(255,255,255,.95),
+
+    0 0 18px
+      rgba(33,108,255,.10);
+
+  backdrop-filter:blur(14px);
+
+  -webkit-backdrop-filter:blur(14px);
+
+  z-index:1000;
+}
+
+
+/* =================================================
+   CLOCK OUTER
+   ================================================= */
+
+.bd-clock{
+
+  position:relative;
+
+  width:72px;
+  height:72px;
+
+  border-radius:50%;
+
+  background:#263d59;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  box-shadow:
+
+    0 5px 15px
+      rgba(20,55,90,.30),
+
+    0 0 14px
+      rgba(33,108,255,.16),
+
+    inset 0 2px 4px
+      rgba(255,255,255,.35);
+}
+
+
+/* =================================================
+   CLOCK WHITE FACE
+   ================================================= */
+
+.bd-clock-face{
+
+  position:relative;
+
+  width:62px;
+  height:62px;
+
+  border-radius:50%;
+
+  background:
+    radial-gradient(
+      circle at 35% 30%,
+      #ffffff,
+      #f8fbff 55%,
+      #e8f0f8 100%
+    );
+
+  border:2px solid #263d59;
+
+  box-shadow:
+
+    inset 0 2px 5px
+      rgba(0,0,0,.10),
+
+    0 0 8px
+      rgba(33,108,255,.12);
+
+  overflow:hidden;
+}
+
+
+/* =================================================
+   CLOCK TICKS
+   ================================================= */
+
+.clock-mark{
+
+  position:absolute;
+
+  left:50%;
+  top:50%;
+
+  width:2px;
+  height:6px;
+
+  border-radius:5px;
+
+  background:#263d59;
+
+  transform:
+    translate(-50%,-50%)
+    rotate(var(--angle))
+    translateY(-25px);
+
+  transform-origin:center;
+
+  z-index:3;
+}
+
+
+/* =================================================
+   CLOCK NUMBERS
+   ONLY 12, 3, 6, 9
+   ================================================= */
+
+.clock-number{
+
+  position:absolute;
+
+  color:#263d59;
+
+  font-size:10px;
+
+  font-weight:900;
+
+  line-height:1;
+
+  z-index:4;
+
+  text-shadow:
+    0 1px 2px
+    rgba(0,0,0,.12);
+}
+
+
+/* =================================================
+   12 NUMBER
+   ================================================= */
+
+.number-12{
+
+  left:50%;
+  top:5px;
+
+  transform:
+    translateX(-50%);
+}
+
+
+/* =================================================
+   3 NUMBER
+   ================================================= */
+
+.number-3{
+
+  right:6px;
+  top:50%;
+
+  transform:
+    translateY(-50%);
+}
+
+
+/* =================================================
+   6 NUMBER
+   ================================================= */
+
+.number-6{
+
+  left:50%;
+  bottom:5px;
+
+  transform:
+    translateX(-50%);
+}
+
+
+/* =================================================
+   9 NUMBER
+   ================================================= */
+
+.number-9{
+
+  left:6px;
+  top:50%;
+
+  transform:
+    translateY(-50%);
+}
+
+
+/* =================================================
+   CLOCK HAND BASE
+   ================================================= */
+
+.clock-hand{
+
+  position:absolute;
+
+  left:50%;
+  bottom:50%;
+
+  border-radius:10px;
+
+  transform-origin:
+    50% 100%;
+
+  transform:
+    translateX(-50%)
+    rotate(0deg);
+}
+
+
+/* =================================================
+   HOUR HAND
+   ================================================= */
+
+.hour-hand{
+
+  width:4px;
+  height:18px;
+
+  background:#263d59;
+
+  box-shadow:
+    0 1px 3px
+    rgba(0,0,0,.30);
+
+  z-index:6;
+}
+
+
+/* =================================================
+   MINUTE HAND
+   ================================================= */
+
+.minute-hand{
+
+  width:3px;
+  height:24px;
+
+  background:#263d59;
+
+  box-shadow:
+    0 1px 3px
+    rgba(0,0,0,.30);
+
+  z-index:7;
+}
+
+
+/* =================================================
+   SECOND HAND
+   ================================================= */
+
+.second-hand{
+
+  width:2px;
+  height:27px;
+
+  background:#216cff;
+
+  box-shadow:
+    0 0 5px
+    rgba(33,108,255,.75);
+
+  z-index:8;
+}
+
+
+/* =================================================
+   CLOCK CENTER
+   ================================================= */
+
+.clock-center{
+
+  position:absolute;
+
+  left:50%;
+  top:50%;
+
+  width:7px;
+  height:7px;
+
+  transform:
+    translate(-50%,-50%);
+
+  border-radius:50%;
+
+  background:#216cff;
+
+  border:
+    2px solid #263d59;
+
+  box-shadow:
+    0 0 6px
+    rgba(33,108,255,.65);
+
+  z-index:10;
+}
+
+
+/* =================================================
+   MOBILE CLOCK
+   ================================================= */
+
+@media(max-width:520px){
+
+  .bd-clock-box{
+
+    top:13px;
+    left:13px;
+
+    width:78px;
+    height:78px;
+
+    border-radius:18px;
+  }
+
+  .bd-clock{
+
+    width:60px;
+    height:60px;
+  }
+
+  .bd-clock-face{
+
+    width:52px;
+    height:52px;
+  }
+
+  .clock-mark{
+
+    height:5px;
+
+    transform:
+      translate(-50%,-50%)
+      rotate(var(--angle))
+      translateY(-21px);
+  }
+
+  .clock-number{
+
+    font-size:9px;
+  }
+
+  .number-12{
+
+    top:4px;
+  }
+
+  .number-3{
+    right:5px;
+  }
+
+  .number-6{
+    bottom:4px;
+  }
+
+  .number-9{
+    left:5px;
+  }
+
+  .hour-hand{
+    height:15px;
+    width:3px;
+  }
+
+  .minute-hand{
+    height:20px;
+    width:3px;
+  }
+
+  .second-hand{
+    height:23px;
+    width:2px;
+  }
+
+  .clock-center{
+    width:6px;
+    height:6px;
+  }
+}
+
+
+/* =================================================
+   MAIN CONTAINER
+   ================================================= */
+
+.container{
+  width:min(520px,100%);
+  position:relative;
+}
+
+
+.title{
+
+  text-align:center;
+
+  font-size:34px;
+
+  letter-spacing:4px;
+
+  color:#243a55;
+
+  font-weight:800;
+
+  margin-bottom:22px;
+
+  text-shadow:
+    0 3px 10px
+    rgba(20,70,120,.18);
+}
+
+
+/* =================================================
+   CARD
+   ================================================= */
+
+.card{
+
+  position:relative;
+
+  background:
+    rgba(255,255,255,.84);
+
+  border:1px solid #fff;
+
+  border-radius:30px;
+
+  padding:78px 28px 30px;
+
+  box-shadow:
+
+    0 25px 70px
+      rgba(24,68,110,.25),
+
+    inset 0 1px 0
+      #fff;
+
+  backdrop-filter:blur(16px);
+
+  -webkit-backdrop-filter:blur(16px);
+}
+
+
+/* =================================================
+   CLOSE BUTTON
+   ================================================= */
+
+.close{
+
+  position:absolute;
+
+  top:17px;
+  right:18px;
+
+  width:38px;
+  height:38px;
+
+  border:0;
+
+  border-radius:12px;
+
+  background:#edf4fb;
+
+  color:#29415c;
+
+  font-size:22px;
+
+  cursor:pointer;
+}
+
+
+/* =================================================
+   PROFILE ICON
+   ================================================= */
+
+.profile{
+
+  position:absolute;
+
+  left:50%;
+  top:-48px;
+
+  transform:
+    translateX(-50%);
+
+  width:102px;
+  height:102px;
+
+  border-radius:50%;
+
+  display:flex;
+
+  align-items:center;
+  justify-content:center;
+
+  background:
+    linear-gradient(
+      145deg,
+      #f9fcff,
+      #dce8f4
+    );
+
+  box-shadow:
+
+    0 10px 28px
+      rgba(30,90,150,.25),
+
+    inset 0 2px 4px
+      #fff;
+}
+
+
+.profile:before{
+
+  content:"";
+
+  position:absolute;
+
+  inset:-7px;
+
+  border-radius:50%;
+
+  background:
+    conic-gradient(
+      #20a9ff,
+      #74d7ff,
+      #216cff,
+      #20a9ff
+    );
+
+  animation:
+    profileRing 4s linear infinite;
+
+  z-index:-1;
+}
+
+
+.profile:after{
+
+  content:"";
+
+  position:absolute;
+
+  inset:3px;
+
+  border-radius:50%;
+
+  background:
+    linear-gradient(
+      145deg,
+      #f9fcff,
+      #dce8f4
+    );
+
+  z-index:0;
+}
+
+
+.person-head{
+
+  position:absolute;
+
+  width:29px;
+  height:29px;
+
+  border-radius:50%;
+
+  background:#2d4965;
+
+  top:25px;
+
+  z-index:2;
+}
+
+
+.person-body{
+
+  position:absolute;
+
+  width:58px;
+  height:34px;
+
+  border-radius:
+    32px 32px 17px 17px;
+
+  background:#2d4965;
+
+  bottom:20px;
+
+  z-index:2;
+}
+
+
+@keyframes profileRing{
+
+  to{
+    transform:rotate(360deg);
+  }
+
+}
+
+
+/* =================================================
+   FORM
+   ================================================= */
+
+.form{
+
+  display:flex;
+
+  flex-direction:column;
+
+  gap:13px;
+}
+
+
+.field-wrap{
+
+  position:relative;
+
+  border-radius:17px;
+}
+
+
+.field{
+
+  width:100%;
+
+  height:57px;
+
+  border:2px solid transparent;
+
+  border-radius:17px;
+
+  outline:none;
+
+  padding:
+    0 55px 0 48px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #263d59,
+      #152b44
+    );
+
+  color:#fff;
+
+  font-size:15px;
+
+  box-shadow:
+
+    inset 3px 3px 8px
+      rgba(0,0,0,.28),
+
+    0 5px 15px
+      rgba(20,60,100,.12);
+
+  position:relative;
+
+  z-index:2;
+}
+
+
+.field::placeholder{
+
+  color:#d4deea;
+}
+
+
+/* =================================================
+   INPUT ICON
+   ================================================= */
+
+.field-icon{
+
+  position:absolute;
+
+  z-index:4;
+
+  left:17px;
+  top:50%;
+
+  transform:
+    translateY(-50%);
+
+  color:#eaf4ff;
+
+  width:20px;
+  height:20px;
+
+  pointer-events:none;
+}
+
+
+/* =================================================
+   STATIC GREEN FOCUS EFFECT
+   ================================================= */
+
+.field-wrap.active .field{
+
+  border-color:#27ff73;
+
+  box-shadow:
+
+    inset 3px 3px 8px
+      rgba(0,0,0,.28),
+
+    0 0 0 2px
+      rgba(39,255,115,.40),
+
+    0 0 12px
+      rgba(39,255,115,1),
+
+    0 0 28px
+      rgba(39,255,115,.90),
+
+    0 0 48px
+      rgba(39,255,115,.60),
+
+    0 0 70px
+      rgba(39,255,115,.30);
+}
+
+
+.field-wrap.active:before{
+
+  display:none !important;
+}
+
+
+/* =================================================
+   SHOW / HIDE
+   ================================================= */
+
+.toggle{
+
+  position:absolute;
+
+  right:12px;
+  top:50%;
+
+  transform:
+    translateY(-50%);
+
+  z-index:5;
+
+  border:0;
+
+  background:transparent;
+
+  color:#9fffc0;
+
+  font-size:12px;
+
+  font-weight:700;
+
+  cursor:pointer;
+}
+
+
+/* =================================================
+   PASSWORD REQUIREMENTS
+   ================================================= */
+
+.requirements{
+
+  margin-top:-5px;
+
+  padding:
+    4px 5px 1px;
+}
+
+
+.req-title{
+
+  color:#e64949;
+
+  font-size:11px;
+
+  margin-bottom:6px;
+
+  font-weight:700;
+}
+
+
+.req-list{
+
+  display:flex;
+
+  flex-wrap:wrap;
+
+  gap:5px;
+}
+
+
+.req{
+
+  font-size:10px;
+
+  color:#e34b4b;
+
+  background:
+    rgba(255,80,80,.07);
+
+  border:
+    1px solid
+    rgba(220,70,70,.16);
+
+  padding:
+    3px 6px;
+
+  border-radius:7px;
+}
+
+
+.req.ok{
+
+  color:#12a94d;
+
+  border-color:
+    rgba(18,169,77,.25);
+
+  background:
+    rgba(18,169,77,.06);
+}
+
+
+/* =================================================
+   PASSWORD STRENGTH BAR
+   ================================================= */
+
+.strength{
+
+  height:17px;
+
+  margin-top:8px;
+
+  padding:3px;
+
+  border-radius:30px;
+
+  background:#fff;
+
+  border:
+    1px solid
+    rgba(185,195,205,.9);
+
+  box-shadow:
+
+    inset 0 2px 5px
+      rgba(0,0,0,.10),
+
+    0 3px 10px
+      rgba(50,90,130,.12);
+
+  overflow:hidden;
+}
+
+
+.strength-fill{
+
+  height:100%;
+
+  width:0%;
+
+  border-radius:30px;
+
+  transition:
+
+    width .45s ease,
+    background .45s ease,
+    box-shadow .45s ease;
+}
+
+
+/* =================================================
+   STAGE 1
+   ================================================= */
+
+.strength-fill.s1{
+
+  background:#c8ffd7;
+
+  box-shadow:
+    0 0 7px
+    rgba(70,255,130,.55);
+}
+
+
+/* =================================================
+   STAGE 2
+   ================================================= */
+
+.strength-fill.s2{
+
+  background:#8dffad;
+
+  box-shadow:
+    0 0 11px
+    rgba(50,255,110,.65);
+}
+
+
+/* =================================================
+   STAGE 3
+   ================================================= */
+
+.strength-fill.s3{
+
+  background:#52ff87;
+
+  box-shadow:
+    0 0 15px
+    rgba(30,255,100,.75);
+}
+
+
+/* =================================================
+   STAGE 4
+   ================================================= */
+
+.strength-fill.s4{
+
+  background:#20ef62;
+
+  box-shadow:
+    0 0 19px
+    rgba(20,255,90,.90);
+}
+
+
+/* =================================================
+   STAGE 5
+   ================================================= */
+
+.strength-fill.s5{
+
+  background:
+    linear-gradient(
+      90deg,
+
+      #20ef62 0%,
+      #20ef62 45%,
+
+      #b8ffbd 49%,
+
+      #ffb0b0 53%,
+
+      #ff7777 100%
+    );
+
+  box-shadow:
+
+    0 0 19px
+      rgba(30,255,100,.75),
+
+    0 0 12px
+      rgba(255,80,80,.40);
+}
+
+
+/* =================================================
+   STAGE 6
+   ================================================= */
+
+.strength-fill.s6{
+
+  background:
+    linear-gradient(
+      90deg,
+
+      #20ef62 0%,
+      #20ef62 32%,
+
+      #ffb0b0 43%,
+
+      #ff5e5e 67%,
+
+      #e83f3f 100%
+    );
+
+  box-shadow:
+
+    0 0 18px
+      rgba(30,255,100,.65),
+
+    0 0 18px
+      rgba(255,60,60,.60);
+}
+
+
+/* =================================================
+   STAGE 7
+   ================================================= */
+
+.strength-fill.s7{
+
+  background:
+    linear-gradient(
+      90deg,
+
+      #20ef62 0%,
+      #20ef62 22%,
+
+      #ff9a9a 35%,
+
+      #ef4545 62%,
+
+      #c91f1f 100%
+    );
+
+  box-shadow:
+
+    0 0 18px
+      rgba(30,255,100,.58),
+
+    0 0 22px
+      rgba(220,30,30,.68);
+}
+
+
+/* =================================================
+   STAGE 8
+   ================================================= */
+
+.strength-fill.s8{
+
+  background:
+    linear-gradient(
+      90deg,
+
+      #20ef62 0%,
+      #20ef62 18%,
+
+      #ff8585 30%,
+
+      #e73535 52%,
+
+      #a90000 78%,
+
+      #770000 100%
+    );
+
+  box-shadow:
+
+    0 0 17px
+      rgba(30,255,100,.50),
+
+    0 0 28px
+      rgba(170,0,0,.78);
+}
+
+
+/* =================================================
+   NEWSLETTER
+   ================================================= */
+
+.newsletter{
+
+  display:flex;
+
+  align-items:center;
+
+  gap:8px;
+
+  font-size:13px;
+
+  color:#3d5066;
+
+  margin:
+    3px 2px 2px;
+}
+
+
+.newsletter input{
+
+  accent-color:#216cff;
+
+  width:16px;
+  height:16px;
+}
+
+
+/* =================================================
+   BUTTONS
+   ================================================= */
+
+.buttons{
+
+  display:flex;
+
+  flex-direction:column;
+
+  gap:13px;
+
+  margin-top:5px;
+}
+
+
+button.main{
+
+  height:57px;
+
+  border:0;
+
+  border-radius:17px;
+
+  font-size:16px;
+
+  font-weight:800;
+
+  letter-spacing:1px;
+
+  cursor:pointer;
+}
+
+
+.signup{
+
+  color:#fff;
+
+  background:
+    linear-gradient(
+      135deg,
+      #1b65ff,
+      #1536b8
+    );
+
+  box-shadow:
+
+    0 8px 22px
+      rgba(27,75,210,.35),
+
+    0 0 18px
+      rgba(35,100,255,.35);
+}
+
+
+.signin{
+
+  color:#29425e;
+
+  background:
+    linear-gradient(
+      145deg,
+      #f9fcff,
+      #dbe8f5
+    );
+
+  border:
+    1px solid
+    #c9d9e9 !important;
+
+  box-shadow:
+
+    5px 5px 15px
+      rgba(35,75,110,.13),
+
+    -4px -4px 12px
+      #fff;
+}
+
+
+/* =================================================
+   OR
+   ================================================= */
+
+.or{
+
+  display:flex;
+
+  align-items:center;
+
+  gap:10px;
+
+  color:#718196;
+
+  font-size:12px;
+
+  margin:1px 0;
+}
+
+
+.or:before,
+.or:after{
+
+  content:"";
+
+  height:1px;
+
+  flex:1;
+
+  background:#c8d5e2;
+}
+
+
+/* =================================================
+   MOBILE MAIN CARD
+   ================================================= */
+
+@media(max-width:520px){
+
+  .title{
+
+    font-size:28px;
+
+    letter-spacing:3px;
+  }
+
+  .card{
+
+    padding:
+      72px 17px 23px;
+
+    border-radius:25px;
+  }
+
+}
+
+
+/* =================================================
+   EXTRA SMALL SCREEN
+   ================================================= */
+
+@media(max-width:380px){
+
+  .bd-clock-box{
+
+    width:70px;
+    height:70px;
+
+    top:10px;
+    left:10px;
+  }
+
+  .bd-clock{
+
+    width:54px;
+    height:54px;
+  }
+
+  .bd-clock-face{
+
+    width:46px;
+    height:46px;
+  }
+
+  .clock-mark{
+
+    transform:
+      translate(-50%,-50%)
+      rotate(var(--angle))
+      translateY(-18px);
+  }
+
+  .number-12{
+
+    top:3px;
+  }
+
+  .number-3{
+    right:4px;
+  }
+
+  .number-6{
+    bottom:3px;
+  }
+
+  .number-9{
+    left:4px;
+  }
+
+}
+
+
+</style>
+</head>
+
+
+<body>
+
+
+<!-- =================================================
+     BANGLADESH STANDARD TIME CLOCK
+     
+     ONLY:
+     12 = NUMBER
+     3 = NUMBER
+     6 = NUMBER
+     9 = NUMBER
+
+     ALL OTHER POSITIONS = TICK MARK
+     ================================================= -->
+
+<div
+  class="bd-clock-box"
+  title="Bangladesh Standard Time"
+  aria-label="Bangladesh Standard Time"
+>
+
+  <div class="bd-clock">
+
+    <div class="bd-clock-face">
+
+
+      <!-- 12 NUMBER -->
+
+      <span
+        class="clock-number number-12"
+      >
+        12
+      </span>
+
+
+      <!-- 1 TICK -->
+
+      <span
+        class="clock-mark"
+        style="--angle:30deg"
+      ></span>
+
+
+      <!-- 2 TICK -->
+
+      <span
+        class="clock-mark"
+        style="--angle:60deg"
+      ></span>
+
+
+      <!-- 3 NUMBER -->
+
+      <span
+        class="clock-number number-3"
+      >
+        3
+      </span>
+
+
+      <!-- 4 TICK -->
+
+      <span
+        class="clock-mark"
+        style="--angle:120deg"
+      ></span>
+
+
+      <!-- 5 TICK -->
+
+      <span
+        class="clock-mark"
+        style="--angle:150deg"
+      ></span>
+
+
+      <!-- 6 NUMBER -->
+
+      <span
+        class="clock-number number-6"
+      >
+        6
+      </span>
+
+
+      <!-- 7 TICK -->
+
+      <span
+        class="clock-mark"
+        style="--angle:210deg"
+      ></span>
+
+
+      <!-- 8 TICK -->
+
+      <span
+        class="clock-mark"
+        style="--angle:240deg"
+      ></span>
+
+
+      <!-- 9 NUMBER -->
+
+      <span
+        class="clock-number number-9"
+      >
+        9
+      </span>
+
+
+      <!-- 10 TICK -->
+
+      <span
+        class="clock-mark"
+        style="--angle:300deg"
+      ></span>
+
+
+      <!-- 11 TICK -->
+
+      <span
+        class="clock-mark"
+        style="--angle:330deg"
+      ></span>
+
+
+      <!-- HOUR HAND -->
+
+      <div
+        class="clock-hand hour-hand"
+        id="hourHand"
+      ></div>
+
+
+      <!-- MINUTE HAND -->
+
+      <div
+        class="clock-hand minute-hand"
+        id="minuteHand"
+      ></div>
+
+
+      <!-- SECOND HAND -->
+
+      <div
+        class="clock-hand second-hand"
+        id="secondHand"
+      ></div>
+
+
+      <!-- CENTER DOT -->
+
+      <div class="clock-center"></div>
+
+
+    </div>
+
+  </div>
+
+</div>
+
+
+
+<!-- =================================================
+     MAIN REGISTRATION
+     ================================================= -->
+
+<div class="container">
+
+
+  <div class="title">
+    REGISTRATION
+  </div>
+
+
+  <div class="card">
+
+
+    <!-- CLOSE BUTTON -->
+
+    <button
+      class="close"
+      type="button"
+      onclick="
+        document.querySelector('.card').style.display='none'
+      "
+    >
+      ×
+    </button>
+
+
+    <!-- PROFILE -->
+
+    <div class="profile">
+
+      <div class="person-head"></div>
+
+      <div class="person-body"></div>
+
+    </div>
+
+
+    <!-- REGISTRATION FORM -->
+
+    <form
+      id="registerForm"
+      class="form"
+    >
+
+
+      <!-- FIRST NAME -->
+
+      <div class="field-wrap">
+
+        <span class="field-icon">
+          👤
+        </span>
+
+        <input
+          class="field"
+          id="firstName"
+          type="text"
+          placeholder="First Name"
+          autocomplete="given-name"
+        >
+
+      </div>
+
+
+      <!-- LAST NAME -->
+
+      <div class="field-wrap">
+
+        <span class="field-icon">
+          👤
+        </span>
+
+        <input
+          class="field"
+          id="lastName"
+          type="text"
+          placeholder="Last Name"
+          autocomplete="family-name"
+        >
+
+      </div>
+
+
+      <!-- USER NAME -->
+
+      <div class="field-wrap">
+
+        <span class="field-icon">
+          👤
+        </span>
+
+        <input
+          class="field"
+          id="userName"
+          type="text"
+          placeholder="User Name"
+          autocomplete="username"
+        >
+
+      </div>
+
+
+      <!-- EMAIL -->
+
+      <div class="field-wrap">
+
+        <span class="field-icon">
+          ✉
+        </span>
+
+        <input
+          class="field"
+          id="email"
+          type="email"
+          placeholder="Email Address"
+          autocomplete="email"
+        >
+
+      </div>
+
+
+      <!-- PASSWORD -->
+
+      <div class="field-wrap">
+
+        <span class="field-icon">
+          🔒
+        </span>
+
+        <input
+          class="field"
+          id="password"
+          type="password"
+          placeholder="Password"
+          autocomplete="new-password"
+        >
+
+        <button
+          class="toggle"
+          type="button"
+          data-target="password"
+        >
+          SHOW
+        </button>
+
+      </div>
+
+
+      <!-- PASSWORD REQUIREMENTS -->
+
+      <div class="requirements">
+
+
+        <div class="req-title">
+
+          Password must contain:
+          capital, small letter, number,
+          special character &amp; minimum
+          8 characters.
+
+        </div>
+
+
+        <div class="req-list">
+
+
+          <span
+            class="req"
+            id="rUpper"
+          >
+            Capital
+          </span>
+
+
+          <span
+            class="req"
+            id="rLower"
+          >
+            Small
+          </span>
+
+
+          <span
+            class="req"
+            id="rNumber"
+          >
+            Number
+          </span>
+
+
+          <span
+            class="req"
+            id="rSpecial"
+          >
+            Special
+          </span>
+
+
+          <span
+            class="req"
+            id="rLength"
+          >
+            8+ Characters
+          </span>
+
+
+        </div>
+
+
+        <!-- WHITE STRENGTH BAR -->
+
+        <div class="strength">
+
+          <div
+            id="strengthFill"
+            class="strength-fill"
+          ></div>
+
+        </div>
+
+
+      </div>
+
+
+      <!-- CONFIRM PASSWORD -->
+
+      <div class="field-wrap">
+
+        <span class="field-icon">
+          🔒
+        </span>
+
+        <input
+          class="field"
+          id="confirmPassword"
+          type="password"
+          placeholder="Confirm Password"
+          autocomplete="new-password"
+        >
+
+        <button
+          class="toggle"
+          type="button"
+          data-target="confirmPassword"
+        >
+          SHOW
+        </button>
+
+      </div>
+
+
+      <!-- NEWSLETTER -->
+
+      <div class="newsletter">
+
+        <input
+          id="newsletter"
+          type="checkbox"
+          checked
+        >
+
+        <label for="newsletter">
+          Subscribe to Newsletter
+        </label>
+
+      </div>
+
+
+      <!-- BUTTONS -->
+
+      <div class="buttons">
+
+
+        <button
+          class="main signup"
+          type="submit"
+        >
+          SIGN UP
+        </button>
+
+
+        <div class="or">
+
+          <span>
+            OR
+          </span>
+
+        </div>
+
+
+        <button
+          class="main signin"
+          type="button"
+          id="signInBtn"
+        >
+          SIGN IN
+        </button>
+
+
+      </div>
+
+
+    </form>
+
+
+  </div>
+
+
+</div>
+
+
+
+<script>
+
+
+/* =================================================
+   BANGLADESH STANDARD TIME CLOCK
+
+   IMPORTANT:
+   The browser's local timezone is NOT used.
+
+   Timezone:
+   Asia/Dhaka
+
+   Therefore the clock always follows
+   Bangladesh Standard Time.
+   ================================================= */
+
+
+const hourHand =
+  document.getElementById(
+    'hourHand'
+  );
+
+
+const minuteHand =
+  document.getElementById(
+    'minuteHand'
+  );
+
+
+const secondHand =
+  document.getElementById(
+    'secondHand'
+  );
+
+
+
+function updateBangladeshClock(){
+
+
+  /*
+   Get the CURRENT real time.
+
+   new Date() gets the current instant.
+
+   Intl.DateTimeFormat then converts
+   that instant specifically to
+   Bangladesh time.
+  */
+
+  const now =
+    new Date();
+
+
+  const parts =
+    new Intl.DateTimeFormat(
+      'en-US',
+      {
+        timeZone:
+          'Asia/Dhaka',
+
+        hour:
+          '2-digit',
+
+        minute:
+          '2-digit',
+
+        second:
+          '2-digit',
+
+        hourCycle:
+          'h23'
+      }
+    )
+    .formatToParts(now);
+
+
+  let hour = 0;
+
+  let minute = 0;
+
+  let second = 0;
+
+
+  parts.forEach(
+    part => {
+
+
+      if(
+        part.type === 'hour'
+      ){
+
+        hour =
+          Number(
+            part.value
+          );
+
+      }
+
+
+      if(
+        part.type === 'minute'
+      ){
+
+        minute =
+          Number(
+            part.value
+          );
+
+      }
+
+
+      if(
+        part.type === 'second'
+      ){
+
+        second =
+          Number(
+            part.value
+          );
+
+      }
+
+
+    }
+  );
+
+
+  /*
+   ================================================
+   HOUR HAND
+   ================================================
+
+   12 hours = 360 degrees
+
+   1 hour = 30 degrees
+
+   The hour hand also moves according
+   to the current minutes.
+
+   Example:
+
+   3:30
+
+   Hour hand = 105 degrees
+  */
+
+  const hourAngle =
+    (
+      (hour % 12) * 30
+    )
+    +
+    (
+      minute * 0.5
+    );
+
+
+  /*
+   ================================================
+   MINUTE HAND
+   ================================================
+
+   60 minutes = 360 degrees
+
+   1 minute = 6 degrees
+
+   The minute hand also moves according
+   to seconds.
+  */
+
+  const minuteAngle =
+    (
+      minute * 6
+    )
+    +
+    (
+      second * 0.1
+    );
+
+
+  /*
+   ================================================
+   SECOND HAND
+   ================================================
+
+   60 seconds = 360 degrees
+
+   1 second = 6 degrees
+  */
+
+  const secondAngle =
+    second * 6;
+
+
+  /*
+   Apply hour hand position
+  */
+
+  hourHand.style.transform =
+    `translateX(-50%) rotate(${hourAngle}deg)`;
+
+
+  /*
+   Apply minute hand position
+  */
+
+  minuteHand.style.transform =
+    `translateX(-50%) rotate(${minuteAngle}deg)`;
+
+
+  /*
+   Apply second hand position
+  */
+
+  secondHand.style.transform =
+    `translateX(-50%) rotate(${secondAngle}deg)`;
+
+}
+
+
+/*
+ =================================================
+ FIRST SYNC
+ =================================================
+
+ Page open হওয়ার সাথে সাথেই
+ Bangladesh time অনুযায়ী কাঁটা বসবে।
+*/
+
+updateBangladeshClock();
+
+
+
+/*
+ =================================================
+ CONTINUOUS CLOCK
+ =================================================
+
+ প্রতি ১ সেকেন্ডে নতুন Bangladesh time
+ নিয়ে clock update হবে।
+*/
+
+setInterval(
+  updateBangladeshClock,
+  1000
+);
+
+
+
+/*
+ =================================================
+ TAB / PAGE আবার ACTIVE হলে
+ =================================================
+
+ কিছু browser background tab-এর timer
+ ধীর বা pause করতে পারে।
+
+ তাই user আবার page-এ ফিরে এলে
+ সঙ্গে সঙ্গে বর্তমান Bangladesh time
+ দিয়ে clock synchronize করা হবে।
+*/
+
+document.addEventListener(
+  'visibilitychange',
+  () => {
+
+    if(
+      document.visibilityState === 'visible'
+    ){
+
+      updateBangladeshClock();
+
+    }
+
+  }
+);
+
+
+
+/* =================================================
+   FOCUS EFFECT
+   ================================================= */
+
+const fieldWraps =
+  document.querySelectorAll(
+    '.field-wrap'
+  );
+
+
+const fields =
+  document.querySelectorAll(
+    '.field'
+  );
+
+
+fields.forEach(
+  field => {
+
+
+    field.addEventListener(
+      'focus',
+      () => {
+
+
+        fieldWraps.forEach(
+          w => {
+
+            w.classList.remove(
+              'active'
+            );
+
+          }
+        );
+
+
+        field.parentElement
+          .classList
+          .add('active');
+
+
+      }
+    );
+
+
+    field.addEventListener(
+      'click',
+      () => {
+
+
+        fieldWraps.forEach(
+          w => {
+
+            w.classList.remove(
+              'active'
+            );
+
+          }
+        );
+
+
+        field.parentElement
+          .classList
+          .add('active');
+
+
+      }
+    );
+
+
+  }
+);
+
+
+
+/* =================================================
+   SHOW / HIDE PASSWORD
+   ================================================= */
+
+document
+  .querySelectorAll(
+    '.toggle'
+  )
+  .forEach(
+    btn => {
+
+
+      btn.addEventListener(
+        'click',
+        () => {
+
+
+          const input =
+            document.getElementById(
+              btn.dataset.target
+            );
+
+
+          if(
+            input.type ===
+            'password'
+          ){
+
+            input.type =
+              'text';
+
+            btn.textContent =
+              'HIDE';
+
+          }
+
+          else{
+
+            input.type =
+              'password';
+
+            btn.textContent =
+              'SHOW';
+
+          }
+
+
+          input.focus();
+
+
+        }
+      );
+
+
+    }
+  );
+
+
+
+/* =================================================
+   PASSWORD ELEMENTS
+   ================================================= */
+
+const password =
+  document.getElementById(
+    'password'
+  );
+
+
+const confirmPassword =
+  document.getElementById(
+    'confirmPassword'
+  );
+
+
+const strengthFill =
+  document.getElementById(
+    'strengthFill'
+  );
+
+
+const reqs = {
+
+
+  upper:
+    document.getElementById(
+      'rUpper'
+    ),
+
+
+  lower:
+    document.getElementById(
+      'rLower'
+    ),
+
+
+  number:
+    document.getElementById(
+      'rNumber'
+    ),
+
+
+  special:
+    document.getElementById(
+      'rSpecial'
+    ),
+
+
+  length:
+    document.getElementById(
+      'rLength'
+    )
+
+
+};
+
+
+
+/* =================================================
+   PASSWORD STRENGTH
+   ================================================= */
+
+function checkPassword(){
+
+
+  const value =
+    password.value;
+
+
+  const checks = {
+
+
+    upper:
+      /[A-Z]/.test(
+        value
+      ),
+
+
+    lower:
+      /[a-z]/.test(
+        value
+      ),
+
+
+    number:
+      /[0-9]/.test(
+        value
+      ),
+
+
+    special:
+      /[^A-Za-z0-9]/.test(
+        value
+      ),
+
+
+    length:
+      value.length >= 8
+
+
+  };
+
+
+  /*
+   Requirement text green হবে
+  */
+
+  Object
+    .keys(checks)
+    .forEach(
+      key => {
+
+
+        reqs[key]
+          .classList
+          .toggle(
+            'ok',
+            checks[key]
+          );
+
+
+      }
+    );
+
+
+  /*
+   Count conditions
+  */
+
+  const passed =
+    Object
+      .values(checks)
+      .filter(
+        Boolean
+      )
+      .length;
+
+
+  let stage =
+    passed;
+
+
+  /*
+   ৫টি condition পূরণ হওয়ার পরে
+   password length অনুযায়ী
+   red stage বাড়বে।
+  */
+
+  if(
+    passed === 5
+  ){
+
+
+    if(
+      value.length >= 16
+    ){
+
+      stage = 8;
+
+    }
+
+    else if(
+      value.length >= 13
+    ){
+
+      stage = 7;
+
+    }
+
+    else if(
+      value.length >= 10
+    ){
+
+      stage = 6;
+
+    }
+
+    else{
+
+      stage = 5;
+
+    }
+
+
+  }
+
+
+  /*
+   Remove previous stage
+  */
+
+  strengthFill.className =
+    'strength-fill' +
+    (
+      stage
+        ? ' s' + stage
+        : ''
+    );
+
+
+  /*
+   Set bar width
+  */
+
+  strengthFill.style.width =
+    stage
+      ? (
+          stage / 8 * 100
+        ) + '%'
+      : '0%';
+
+
+  return checks;
+
+
+}
+
+
+
+/* =================================================
+   LIVE PASSWORD UPDATE
+   ================================================= */
+
+password.addEventListener(
+  'input',
+  checkPassword
+);
+
+
+confirmPassword.addEventListener(
+  'input',
+  checkPassword
+);
+
+
+checkPassword();
+
+
+
+/* =================================================
+   SIGN UP VALIDATION
+   ================================================= */
+
+document
+  .getElementById(
+    'registerForm'
+  )
+  .addEventListener(
+    'submit',
+    e => {
+
+
+      e.preventDefault();
+
+
+      const checks =
+        checkPassword();
+
+
+      const allStrong =
+        Object
+          .values(checks)
+          .every(
+            Boolean
+          );
+
+
+      const same =
+        password.value ===
+        confirmPassword.value
+        &&
+        confirmPassword.value !== '';
+
+
+      /*
+       Password weak হলে
+      */
+
+      if(
+        !allStrong
+      ){
+
+        alert(
+          'Please complete all password requirements.'
+        );
+
+        password.focus();
+
+        return;
+
+      }
+
+
+      /*
+       Confirm password না মিললে
+      */
+
+      if(
+        !same
+      ){
+
+        alert(
+          'Password and Confirm Password do not match.'
+        );
+
+        confirmPassword.focus();
+
+        return;
+
+      }
+
+
+      /*
+       সব ঠিক থাকলে
+      */
+
+      alert(
+        'Registration successful!'
+      );
+
+
+      /* =================================================
+         NEW ACCOUNT → LOGIN PAGE
+
+         Registration সফল হলে
+         সরাসরি login.html এ যাবে।
+
+         Home access flag পরিষ্কার করা হচ্ছে,
+         যাতে registration শেষ হওয়ার আগে
+         index.html সরাসরি খোলা না যায়।
+         ================================================= */
+
+      localStorage.removeItem(
+        'portal_home_access_granted'
+      );
+
+      window.location.href =
+        'login.html';
+
+
+    }
+  );
+
+
+
+/* =================================================
+   SIGN IN
+   ================================================= */
+
+document
+  .getElementById(
+    'signInBtn'
+  )
+  .addEventListener(
+    'click',
+    () => {
+
+
+      /*
+       SIGN IN button চাপলে
+       login.html এ যাবে।
+      */
+
+      window.location.href =
+        'login.html';
+
+
+    }
+  );
+
+
+</script>
+
+</body>
+  </html>
