@@ -44,7 +44,9 @@ function findUser(identifier) {
     const searchValue = normalize(identifier);
 
     return users.find(
-        user => normalize(user.username) === searchValue || normalize(user.email) === searchValue
+        user =>
+            normalize(user.username) === searchValue ||
+            normalize(user.email) === searchValue
     );
 }
 
@@ -58,21 +60,38 @@ function registerUser(username, email, password) {
 
     /* Required fields */
     if (!username || !email || !password) {
-        return { success: false, message: "Please fill in all required fields." };
+        return {
+            success: false,
+            message: "Please fill in all required fields."
+        };
     }
 
     const users = getUsers();
 
     /* Duplicate username */
-    const usernameExists = users.some(user => normalize(user.username) === normalize(username));
+    const usernameExists = users.some(
+        user =>
+            normalize(user.username) === normalize(username)
+    );
+
     if (usernameExists) {
-        return { success: false, message: "This username is already registered." };
+        return {
+            success: false,
+            message: "This username is already registered."
+        };
     }
 
     /* Duplicate email */
-    const emailExists = users.some(user => normalize(user.email) === normalize(email));
+    const emailExists = users.some(
+        user =>
+            normalize(user.email) === normalize(email)
+    );
+
     if (emailExists) {
-        return { success: false, message: "This email is already registered." };
+        return {
+            success: false,
+            message: "This email is already registered."
+        };
     }
 
     /* Create user object */
@@ -88,7 +107,10 @@ function registerUser(username, email, password) {
     users.push(newUser);
     saveUsers(users);
 
-    return { success: true, message: "Registration successful!" };
+    return {
+        success: true,
+        message: "Registration successful!"
+    };
 }
 
 /* =====================================================
@@ -100,19 +122,28 @@ function loginUser(identifier, password) {
 
     /* Empty fields */
     if (!identifier || !password) {
-        return { success: false, message: "Please enter your username/email and password." };
+        return {
+            success: false,
+            message: "Please enter your username/email and password."
+        };
     }
 
     /* Find registered account */
     const user = findUser(identifier);
 
     if (!user) {
-        return { success: false, message: "No registered account found. Please create a new account first." };
+        return {
+            success: false,
+            message: "No registered account found. Please create a new account first."
+        };
     }
 
     /* Password check */
     if (user.password !== password) {
-        return { success: false, message: "Incorrect password." };
+        return {
+            success: false,
+            message: "Incorrect password."
+        };
     }
 
     /* LOGIN SUCCESS */
@@ -124,55 +155,144 @@ function loginUser(identifier, password) {
             email: user.email
         })
     );
-    localStorage.setItem(HOME_ACCESS_KEY, "true");
 
-    return { success: true, message: "Login successful!" };
+    localStorage.setItem(
+        HOME_ACCESS_KEY,
+        "true"
+    );
+
+    return {
+        success: true,
+        message: "Login successful!"
+    };
 }
 
 /* =====================================================
-   DOM EVENT LISTENERS (AUTOMATIC FORM HANDLING)
+   DOM EVENT LISTENERS
 ===================================================== */
-document.addEventListener("DOMContentLoaded", function () {
-    
-    // 1. Registration Form Listener
-    const registerForm = document.getElementById("registerForm");
-    if (registerForm) {
-        registerForm.addEventListener("submit", function (e) {
-            e.preventDefault();
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
 
-            const usernameInput = document.getElementById("username")?.value;
-            const emailInput = document.getElementById("email")?.value;
-            const passwordInput = document.getElementById("password")?.value;
+        /* =================================================
+           REGISTRATION FORM
+           ================================================= */
 
-            const result = registerUser(usernameInput, emailInput, passwordInput);
-            alert(result.message);
+        const registerForm =
+            document.getElementById("registerForm");
 
-            if (result.success) {
-                window.location.href = "login.html"; // Redirect to Login Page
-            }
-        });
+        if (registerForm) {
+
+            registerForm.addEventListener(
+                "submit",
+                function (e) {
+
+                    e.preventDefault();
+
+                    /*
+                     IMPORTANT:
+                     registration.html এ User Name-এর ID
+                     হচ্ছে "userName".
+
+                     তাই এখানে userName এবং username
+                     দুইটাই support করা হচ্ছে।
+                    */
+
+                    const usernameInput =
+                        document.getElementById("userName")?.value ||
+                        document.getElementById("username")?.value;
+
+                    const emailInput =
+                        document.getElementById("email")?.value;
+
+                    const passwordInput =
+                        document.getElementById("password")?.value;
+
+                    /*
+                     Registration form-এর inline handler
+                     যেন আবার একই registration না করে।
+                    */
+
+                    if (registerForm.dataset.registrationHandled === "true") {
+                        return;
+                    }
+
+                    registerForm.dataset.registrationHandled = "true";
+
+                    const result =
+                        registerUser(
+                            usernameInput,
+                            emailInput,
+                            passwordInput
+                        );
+
+                    if (!result.success) {
+
+                        registerForm.dataset.registrationHandled = "false";
+
+                        alert(result.message);
+
+                        return;
+                    }
+
+                    alert(result.message);
+
+                    window.location.href =
+                        "login.html";
+
+                }
+            );
+        }
+
+
+        /* =================================================
+           LOGIN FORM
+           ================================================= */
+
+        const loginForm =
+            document.getElementById("loginForm");
+
+        if (loginForm) {
+
+            loginForm.addEventListener(
+                "submit",
+                function (e) {
+
+                    e.preventDefault();
+
+                    /*
+                     Support inputs with id:
+                     email
+                     username
+                     identifier
+                    */
+
+                    const identifierInput =
+                        document.getElementById("email")?.value ||
+                        document.getElementById("username")?.value ||
+                        document.getElementById("identifier")?.value;
+
+                    const passwordInput =
+                        document.getElementById("password")?.value;
+
+                    const result =
+                        loginUser(
+                            identifierInput,
+                            passwordInput
+                        );
+
+                    alert(result.message);
+
+                    if (result.success) {
+
+                        window.location.href =
+                            "home.html";
+
+                    }
+
+                }
+            );
+        }
+
     }
-
-    // 2. Login Form Listener
-    const loginForm = document.getElementById("loginForm");
-    if (loginForm) {
-        loginForm.addEventListener("submit", function (e) {
-            e.preventDefault();
-
-            // Support inputs with id 'email', 'username' or 'identifier'
-            const identifierInput = 
-                document.getElementById("email")?.value || 
-                document.getElementById("username")?.value || 
-                document.getElementById("identifier")?.value;
-
-            const passwordInput = document.getElementById("password")?.value;
-
-            const result = loginUser(identifierInput, passwordInput);
-            alert(result.message);
-
-            if (result.success) {
-                window.location.href = "home.html"; // Redirect to Home Page
-            }
-        });
-    }
-});
+);
