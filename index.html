@@ -527,7 +527,7 @@ body{
     ============================================================
 */
 
-const HOME_PAGE = "home.html"; // আসল হোম পেজের লিংক (যদি আপনার অন্য কোনো নাম থাকে যেমন dashboard.html তবে তা দিতে পারেন)
+const HOME_PAGE = "main.html"; // আপনার নির্দিষ্ট হোম পেজের ফাইল নেম
 
 const REGISTRATION_PAGE = "registration.html";
 
@@ -1562,7 +1562,7 @@ confirmButton.addEventListener(
         resetAccessState();
 
         /*
-            যদি গ্রাহক আগে থেকে রেজিস্টার্ড থাকেন, তবে সরাসরি হোম পেজে চলে যাবে।
+            যদি গ্রাহক আগে থেকে রেজিস্টার্ড থাকেন, তবে সরাসরি হোম পেজে (main.html) চলে যাবে।
             অন্যথায় রেজিস্ট্রেশন পেজে যাবে।
         */
         const isRegistered = localStorage.getItem(USER_REGISTERED_KEY) === "true";
@@ -2093,4 +2093,4 @@ checkAccount();
 </script>
 
 </body>
-      </html>
+    </html>
